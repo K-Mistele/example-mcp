@@ -9,7 +9,7 @@ import os
 import contextlib
 
 
-def crewai_to_mcp(
+def crewai_to_mcp_tool(
     crewai_class: Any,
     name: str,
     description: str,
@@ -24,7 +24,6 @@ def crewai_to_mcp(
         description: The description of the MCP server
         input_schema: The Pydantic model class defining the input schema
     """
-    mcp = FastMCP(name)
 
     # Get the field names and types from the input schema
     schema_fields = input_schema.model_fields
@@ -38,8 +37,7 @@ def crewai_to_mcp(
     # Create the function body that constructs the input schema
     body_str = f"""def run_agent({params_str}):
         inputs = input_schema({', '.join(f'{name}={name}' for name in schema_fields)})
-        with contextlib.redirect_stdout(None):
-            result = crewai_class().crew().kickoff(inputs=inputs.model_dump())
+        result = crewai_class().crew().kickoff(inputs=inputs.model_dump())
         return result.model_dump_json()
     """
 
@@ -48,6 +46,7 @@ def crewai_to_mcp(
         "input_schema": input_schema,
         "crewai_class": crewai_class,
         "json": json,
+        "contextlib": contextlib,
     }
 
     # Execute the function definition in the namespace
@@ -57,11 +56,22 @@ def crewai_to_mcp(
     run_agent = namespace["run_agent"]
 
     # Add proper function metadata
-    run_agent.__name__ = "run_agent"
+    run_agent.__name__ = name
     run_agent.__doc__ = description
 
-    # Register the function with MCP
-    mcp.add_tool(run_agent, name=name, description=description)
+    return run_agent
 
-    # Return the MCP server instance
-    return mcp
+
+def add_crew_to_mcp(
+    mcp: FastMCP, crew: Any, name: str, description: str, input_schema: Type[BaseModel]
+):
+    mcp.add_tool(
+        crewai_to_mcp_tool(
+            crewai_class=crew,
+            name=name,
+            description=description,
+            input_schema=input_schema,
+        ),
+        name=name,
+        description=description,
+    )
