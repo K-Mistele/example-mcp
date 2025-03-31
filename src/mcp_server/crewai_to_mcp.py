@@ -47,6 +47,7 @@ def crewai_to_mcp_tool(
         "crewai_class": crewai_class,
         "json": json,
         "contextlib": contextlib,
+        "io": io,
     }
 
     # Execute the function definition in the namespace
