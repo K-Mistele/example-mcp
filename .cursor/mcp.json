@@ -1,0 +1,15 @@
+{
+    "mcpServers": {
+        "crew": {
+            "command": "uvx",
+            "args": [
+                "--from",
+                "git+https://github.com/K-Mistele/example-mcp serve_stdio"
+            ],
+            "env": {
+                "OPENAI_API_KEY": "...",
+                "SERPER_API_KEY": "..."
+            }
+        }
+    }
+}

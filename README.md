@@ -75,22 +75,19 @@ Example of Cursor configuration for SSE transport:
 Example of Cursor configuration for STDIO transport:
 ```json
 {
-  "mcpServers": {
-    "Postgres": {
-      "command": "bunx",
-      "args": [
-        "@modelcontextprotocol/server-postgres",
-        "postgresql://postgres:CorrectNuclearUrgentVelocityRedAphid@postgres:5432/postgres"
-      ]
-    },
-    "crew": {
-      "command": "uv",
-      "args": [
-        "run",
-        "mcp_server.py"
-      ]
+    "mcpServers": {
+        "crew": {
+            "command": "uvx",
+            "args": [
+                "--from",
+                "git+https://github.com/K-Mistele/example-mcp serve_stdio"
+            ],
+            "env": {
+                "OPENAI_API_KEY": "KEY GOES HERE",
+                "SERVER_API_KEY": "KEY GOES HERE"
+            }
+        }
     }
-  }
 }
 ```
 
