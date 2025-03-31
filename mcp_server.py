@@ -15,5 +15,14 @@ mcp = crewai_to_mcp(
     input_schema=InputSchema,
 )
 
-if __name__ == "__main__":
+
+def serve_sse():
     mcp.run(transport="sse")
+
+
+def serve_stdio():
+    mcp.run(transport="stdio")
+
+
+if __name__ == "__main__":
+    serve_stdio()
