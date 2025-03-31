@@ -5,6 +5,7 @@ from mcp.server.fastmcp import FastMCP
 from functools import wraps
 import json
 import contextlib
+import io
 
 
 def crewai_to_mcp_tool(
@@ -35,7 +36,7 @@ def crewai_to_mcp_tool(
     # Create the function body that constructs the input schema
     body_str = f"""def run_agent({params_str}):
         inputs = input_schema({', '.join(f'{name}={name}' for name in schema_fields)})
-        with contextlib.redirect_stdout(None):
+        with contextlib.redirect_stdout(io.StringIO()):
             result = crewai_class().crew().kickoff(inputs=inputs.model_dump())
         return result.model_dump_json()
     """

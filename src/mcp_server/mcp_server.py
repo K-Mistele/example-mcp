@@ -1,9 +1,5 @@
 import warnings
-
-# Suppress specific warning categories
-warnings.filterwarnings("ignore", category=DeprecationWarning)
-warnings.filterwarnings("ignore", category=UserWarning)
-
+from typing import Any
 from .crewai_to_mcp import crewai_to_mcp_tool, add_crew_to_mcp
 from marketing_posts.crew import MarketingPostsCrew
 from pydantic import BaseModel
@@ -16,14 +12,22 @@ class InputSchema(BaseModel):
 
 
 mcp = FastMCP("my MCP Server")
+name = "Marketing Crew"
+description = "A crew that creates marketing posts"
+input_schema = InputSchema
 
 # we can add more than once crew!
-add_crew_to_mcp(
-    mcp,
-    crew=MarketingPostsCrew,
-    name="Marketing Crew",
-    description="A crew that creates marketing posts",
-    input_schema=InputSchema,
+
+tool = crewai_to_mcp_tool(
+    crewai_class=MarketingPostsCrew,
+    name=name,
+    description=description,
+    input_schema=input_schema,
+)
+mcp.add_tool(
+    tool,
+    name=name,
+    description=description,
 )
 
 
