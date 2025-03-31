@@ -64,13 +64,15 @@ def crewai_to_mcp_tool(
 def add_crew_to_mcp(
     mcp: FastMCP, crew: Any, name: str, description: str, input_schema: Type[BaseModel]
 ):
+
+    tool = crewai_to_mcp_tool(
+        crewai_class=crew,
+        name=name,
+        description=description,
+        input_schema=input_schema,
+    )
     mcp.add_tool(
-        crewai_to_mcp_tool(
-            crewai_class=crew,
-            name=name,
-            description=description,
-            input_schema=input_schema,
-        ),
+        tool,
         name=name,
         description=description,
     )
