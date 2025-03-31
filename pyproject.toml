@@ -16,7 +16,7 @@ dependencies = [
 marketing_posts = "marketing_posts.main:run"
 train = "marketing_posts.main:train"
 run_crew = "marketing_posts.main:run"
-serve_stdio = "mcp_server.main"
+serve_stdio = "mcp_server.main:run"
 serve_sse = "mcp_server.mcp_server:serve_sse"
 
 [build-system]
