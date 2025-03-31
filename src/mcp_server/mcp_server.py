@@ -33,3 +33,7 @@ def serve_sse():
 
 def serve_stdio():
     mcp.run(transport="stdio")
+
+
+if __name__ == "__main__":
+    serve_stdio()

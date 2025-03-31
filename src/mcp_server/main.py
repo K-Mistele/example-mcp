@@ -27,5 +27,10 @@ from mcp_server.mcp_server import serve_stdio
 # Restore stderr for normal operation
 sys.stderr = original_stderr
 
-if __name__ == "__main__":
+
+def run():
     serve_stdio()
+
+
+if __name__ == "__main__":
+    run()
