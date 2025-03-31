@@ -1,4 +1,4 @@
-from marketing_posts.crewai_to_mcp import crewai_to_mcp
+from .crewai_to_mcp import crewai_to_mcp
 from marketing_posts.crew import MarketingPostsCrew
 from pydantic import BaseModel
 

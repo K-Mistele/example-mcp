@@ -2,3 +2,4 @@ __pycache__
 .env
 result.json
 .venv
+.cursor/mcp.json
